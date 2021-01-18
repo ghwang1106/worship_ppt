@@ -173,7 +173,7 @@ def verse_cut(v, middle=0):
 
 # Input arguments
 sermon_title = "십자가 in 신앙고백"
-passage = "열왕기하 6:20-33"
+passage = "열왕기하 6:30-7:13"
 preacher = "이찬우 목사"
 date_type = "2021년 1월 20일 수요예배"
 
@@ -189,6 +189,7 @@ tSlide.add_paragraph('(' + passage + '/ ' + preacher + ')', 24)
 tSlide.make_bold()
 
 vSlides = []
+n_split = 0
 for i, v in enumerate(verses):
     vSlides.append(create_slide(prs1))
     v, n_cuts = verse_cut(v, 1)
@@ -197,10 +198,11 @@ for i, v in enumerate(verses):
         v_half = len(v) - len(v_parts[-1]) - 2
         vSlides[-1].add_textbox(v[:v_half] + "-", [1.67, 0.08, 10, 1.2], 22, spacing=1.1)
         vSlides.append(create_slide(prs1))
-        vSlides[-1].add_textbox(v.split(". ")[0] + ". " + v[v_half+2:], [1.67, 0.08, 10, 1.2], 22, spacing=1.1)
-        cv_all = cv_all[:i] + [cv_all[i][:]] + cv_all[i:]
-        cv_all[i][1] = str(cv_all[i][1]) + "a"
-        cv_all[i+1][1] = str(cv_all[i+1][1]) + "b"
+        vSlides[-1].add_textbox(v.split(" ")[0] + " " + v[v_half+2:], [1.67, 0.08, 10, 1.2], 22, spacing=1.1)
+        cv_all = cv_all[:i+n_split] + [cv_all[i+n_split][:]] + cv_all[i+n_split:]
+        cv_all[i+n_split][1] = str(cv_all[i+n_split][1]) + "a"
+        cv_all[i+n_split+1][1] = str(cv_all[i+n_split+1][1]) + "b"
+        n_split += 1
     else:
         vSlides[-1].add_textbox(v, [1.67, 0.08, 10, 1.2], 22, spacing=1.1)
 tSlide.add_table(abbr, cv_all)
