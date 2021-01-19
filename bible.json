@@ -1,0 +1,398 @@
+[
+  {
+    "kr_name": "창세기",
+    "kr_abbr": "창",
+    "en_abbr": "gen",
+    "total_chapter": 50
+  },
+  {
+    "kr_name": "출애굽기",
+    "kr_abbr": "출",
+    "en_abbr": "exo",
+    "total_chapter": 40
+  },
+  {
+    "kr_name": "레위기",
+    "kr_abbr": "레",
+    "en_abbr": "lev",
+    "total_chapter": 27
+  },
+  {
+    "kr_name": "민수기",
+    "kr_abbr": "민",
+    "en_abbr": "num",
+    "total_chapter": 36
+  },
+  {
+    "kr_name": "신명기",
+    "kr_abbr": "신",
+    "en_abbr": "deu",
+    "total_chapter": 34
+  },
+  {
+    "kr_name": "여호수아",
+    "kr_abbr": "수",
+    "en_abbr": "jos",
+    "total_chapter": 24
+  },
+  {
+    "kr_name": "사사기",
+    "kr_abbr": "삿",
+    "en_abbr": "jdg",
+    "total_chapter": 21
+  },
+  {
+    "kr_name": "룻기",
+    "kr_abbr": "룻",
+    "en_abbr": "rut",
+    "total_chapter": 4
+  },
+  {
+    "kr_name": "사무엘상",
+    "kr_abbr": "삼상",
+    "en_abbr": "1sa",
+    "total_chapter": 31
+  },
+  {
+    "kr_name": "사무엘하",
+    "kr_abbr": "삼하",
+    "en_abbr": "2sa",
+    "total_chapter": 24
+  },
+  {
+    "kr_name": "열왕기상",
+    "kr_abbr": "왕상",
+    "en_abbr": "1ki",
+    "total_chapter": 22
+  },
+  {
+    "kr_name": "열왕기하",
+    "kr_abbr": "왕하",
+    "en_abbr": "2ki",
+    "total_chapter": 25
+  },
+  {
+    "kr_name": "역대상",
+    "kr_abbr": "대상",
+    "en_abbr": "1ch",
+    "total_chapter": 29
+  },
+  {
+    "kr_name": "역대하",
+    "kr_abbr": "대하",
+    "en_abbr": "2ch",
+    "total_chapter": 36
+  },
+  {
+    "kr_name": "에스라",
+    "kr_abbr": "스",
+    "en_abbr": "ezr",
+    "total_chapter": 10
+  },
+  {
+    "kr_name": "느헤미아",
+    "kr_abbr": "느",
+    "en_abbr": "neh",
+    "total_chapter": 13
+  },
+  {
+    "kr_name": "에스더",
+    "kr_abbr": "에",
+    "en_abbr": "est",
+    "total_chapter": 10
+  },
+  {
+    "kr_name": "욥기",
+    "kr_abbr": "욥",
+    "en_abbr": "job",
+    "total_chapter": 42
+  },
+  {
+    "kr_name": "시편",
+    "kr_abbr": "시",
+    "en_abbr": "psa",
+    "total_chapter": 150
+  },
+  {
+    "kr_name": "잠언",
+    "kr_abbr": "잠",
+    "en_abbr": "pro",
+    "total_chapter": 31
+  },
+  {
+    "kr_name": "전도서",
+    "kr_abbr": "전",
+    "en_abbr": "ecc",
+    "total_chapter": 12
+  },
+  {
+    "kr_name": "아가",
+    "kr_abbr": "아",
+    "en_abbr": "sng",
+    "total_chapter": 8
+  },
+  {
+    "kr_name": "이사야",
+    "kr_abbr": "사",
+    "en_abbr": "isa",
+    "total_chapter": 66
+  },
+  {
+    "kr_name": "예레미아",
+    "kr_abbr": "렘",
+    "en_abbr": "jer",
+    "total_chapter": 52
+  },
+  {
+    "kr_name": "예레미아애가",
+    "kr_abbr": "애",
+    "en_abbr": "lam",
+    "total_chapter": 5
+  },
+  {
+    "kr_name": "에스겔",
+    "kr_abbr": "겔",
+    "en_abbr": "ezk",
+    "total_chapter": 48
+  },
+  {
+    "kr_name": "다니엘",
+    "kr_abbr": "단",
+    "en_abbr": "dan",
+    "total_chapter": 12
+  },
+  {
+    "kr_name": "호세아",
+    "kr_abbr": "호",
+    "en_abbr": "hos",
+    "total_chapter": 14
+  },
+  {
+    "kr_name": "요엘",
+    "kr_abbr": "욜",
+    "en_abbr": "jol",
+    "total_chapter": 3
+  },
+  {
+    "kr_name": "아모스",
+    "kr_abbr": "암",
+    "en_abbr": "amo",
+    "total_chapter": 9
+  },
+  {
+    "kr_name": "오바댜",
+    "kr_abbr": "옵",
+    "en_abbr": "oba",
+    "total_chapter": 1
+  },
+  {
+    "kr_name": "요나",
+    "kr_abbr": "욘",
+    "en_abbr": "jnh",
+    "total_chapter": 4
+  },
+  {
+    "kr_name": "미가",
+    "kr_abbr": "미",
+    "en_abbr": "mic",
+    "total_chapter": 7
+  },
+  {
+    "kr_name": "나훔",
+    "kr_abbr": "나",
+    "en_abbr": "nam",
+    "total_chapter": 3
+  },
+  {
+    "kr_name": "하박국",
+    "kr_abbr": "합",
+    "en_abbr": "hab",
+    "total_chapter": 3
+  },
+  {
+    "kr_name": "스바냐",
+    "kr_abbr": "습",
+    "en_abbr": "zep",
+    "total_chapter": 3
+  },
+  {
+    "kr_name": "학개",
+    "kr_abbr": "학",
+    "en_abbr": "hag",
+    "total_chapter": 2
+  },
+  {
+    "kr_name": "스가랴",
+    "kr_abbr": "슥",
+    "en_abbr": "zec",
+    "total_chapter": 14
+  },
+  {
+    "kr_name": "말라기",
+    "kr_abbr": "말",
+    "en_abbr": "mal",
+    "total_chapter": 4
+  },
+  {
+    "kr_name": "마태복음",
+    "kr_abbr": "마",
+    "en_abbr": "mat",
+    "total_chapter": 28
+  },
+  {
+    "kr_name": "마가복음",
+    "kr_abbr": "막",
+    "en_abbr": "mrk",
+    "total_chapter": 16
+  },
+  {
+    "kr_name": "누가복음",
+    "kr_abbr": "눅",
+    "en_abbr": "luk",
+    "total_chapter": 24
+  },
+  {
+    "kr_name": "요한복음",
+    "kr_abbr": "요",
+    "en_abbr": "jhn",
+    "total_chapter": 21
+  },
+  {
+    "kr_name": "사도행전",
+    "kr_abbr": "행",
+    "en_abbr": "act",
+    "total_chapter": 28
+  },
+  {
+    "kr_name": "로마서",
+    "kr_abbr": "롬",
+    "en_abbr": "rom",
+    "total_chapter": 16
+  },
+  {
+    "kr_name": "고린도전서",
+    "kr_abbr": "고전",
+    "en_abbr": "1co",
+    "total_chapter": 16
+  },
+  {
+    "kr_name": "고린도후서",
+    "kr_abbr": "고후",
+    "en_abbr": "2co",
+    "total_chapter": 13
+  },
+  {
+    "kr_name": "갈라디아서",
+    "kr_abbr": "갈",
+    "en_abbr": "gal",
+    "total_chapter": 6
+  },
+  {
+    "kr_name": "에베소서",
+    "kr_abbr": "엡",
+    "en_abbr": "eph",
+    "total_chapter": 6
+  },
+  {
+    "kr_name": "빌립보서",
+    "kr_abbr": "빌",
+    "en_abbr": "php",
+    "total_chapter": 4
+  },
+  {
+    "kr_name": "골로새서",
+    "kr_abbr": "골",
+    "en_abbr": "col",
+    "total_chapter": 4
+  },
+  {
+    "kr_name": "데살로니가전서",
+    "kr_abbr": "살전",
+    "en_abbr": "1th",
+    "total_chapter": 5
+  },
+  {
+    "kr_name": "데살로니가후서",
+    "kr_abbr": "살후",
+    "en_abbr": "2th",
+    "total_chapter": 3
+  },
+  {
+    "kr_name": "디모데전서",
+    "kr_abbr": "딤전",
+    "en_abbr": "1ti",
+    "total_chapter": 6
+  },
+  {
+    "kr_name": "디모데후서",
+    "kr_abbr": "딤후",
+    "en_abbr": "2ti",
+    "total_chapter": 4
+  },
+  {
+    "kr_name": "디도서",
+    "kr_abbr": "딛",
+    "en_abbr": "tit",
+    "total_chapter": 3
+  },
+  {
+    "kr_name": "빌레몬서",
+    "kr_abbr": "몬",
+    "en_abbr": "phm",
+    "total_chapter": 1
+  },
+  {
+    "kr_name": "히브리서",
+    "kr_abbr": "히",
+    "en_abbr": "heb",
+    "total_chapter": 13
+  },
+  {
+    "kr_name": "야고보서",
+    "kr_abbr": "약",
+    "en_abbr": "jas",
+    "total_chapter": 5
+  },
+  {
+    "kr_name": "베드로전서",
+    "kr_abbr": "벧전",
+    "en_abbr": "1pe",
+    "total_chapter": 5
+  },
+  {
+    "kr_name": "베드로후서",
+    "kr_abbr": "벧후",
+    "en_abbr": "2pe",
+    "total_chapter": 3
+  },
+  {
+    "kr_name": "요한1서",
+    "kr_abbr": "요일",
+    "en_abbr": "1jn",
+    "total_chapter": 5
+  },
+  {
+    "kr_name": "요한2서",
+    "kr_abbr": "요이",
+    "en_abbr": "2jn",
+    "total_chapter": 1
+  },
+  {
+    "kr_name": "요한3서",
+    "kr_abbr": "요삼",
+    "en_abbr": "3jn",
+    "total_chapter": 1
+  },
+  {
+    "kr_name": "유다서",
+    "kr_abbr": "유",
+    "en_abbr": "jud",
+    "total_chapter": 1
+  },
+  {
+    "kr_name": "요한계시록",
+    "kr_abbr": "계",
+    "en_abbr": "rev",
+    "total_chapter": 22
+  }
+]
