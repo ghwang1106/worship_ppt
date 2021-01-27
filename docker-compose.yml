@@ -1,0 +1,7 @@
+version: "3.6"
+services:
+  main:
+    env_file: .env
+    image: gcr.io/seansdevnote/worship_ppt
+    build:
+      context: .
