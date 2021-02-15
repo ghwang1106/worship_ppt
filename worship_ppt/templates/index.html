@@ -17,8 +17,23 @@
 
 <body class="vsc-initialized">
   <p>Bible to PPTX</p>
-  <a href="/download">Download ppt</a>
-</body>
 
+  <form method="POST" action="/download">
+    <div class="bible_inputs">
+      <label> 날짜 & 예배: </label>
+      <input type="text" name="date_type" value="2021년 2월 7일 주일예배"><br>
+      <label> 설교 제목: </label>
+      <input type="text" name="sermon_title" value="Restart"><br>
+      <label> 설교자: </label>
+      <input type="text" name="preacher" value="이찬우 목사"><br>
+      <label> 본문 구절: </label>
+      <input type="text" name="main_passage" value="시편 113:1-9"><br>
+      <label> 인용 구절: </label>
+      <input type="text" name="quotes"><br>
+    </div>
+    <input type="submit" name="action" value="Large PPT">
+    <input type="submit" name="action" value="Verse PPT">
+  </form>
+</body>
 
 </html>
