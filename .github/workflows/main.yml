@@ -36,7 +36,7 @@ jobs:
           docker-compose push
       - name: Deploy
         run: |-
-          gcloud run deploy worship_ppt \
+          gcloud run deploy worship-ppt \
             --image gcr.io/seansdevnote/worship_ppt \
             --region us-central1 \
             --platform "managed" \
