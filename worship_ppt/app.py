@@ -1,4 +1,4 @@
-from bible2pptx_web import make_verse_ppt
+from .bible2pptx_web import make_verse_ppt
 from flask import Flask, request, render_template, send_file
 from livereload import Server
 

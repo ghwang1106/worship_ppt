@@ -11,3 +11,6 @@ toml==0.10.2
 tornado==6.1
 Werkzeug==1.0.1
 gunicorn==19.9.0
+pandas==1.0.3
+python-docx==0.8.10
+python-pptx==0.6.18
