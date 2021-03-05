@@ -311,7 +311,7 @@ class PPT:
 
 
 def make_verse_ppt(ppt_inputs, v=0):
-    bb = pd.read_csv('bible_info.csv')
+    bb = pd.read_csv('/bible_info.csv')
     bible = Bible(bb)
     sermon = Sermon(bb, ppt_inputs)
     sermon.passages_ext = bible.lookup(sermon.passages_ind)
