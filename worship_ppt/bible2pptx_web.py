@@ -14,7 +14,7 @@ from pptx.enum.shapes import MSO_SHAPE
 
 class Bible:
 
-    def __init__(self, bb, json_file='bible.json'):
+    def __init__(self, bb, json_file='/worship_ppt/bible.json'):
         self.bb = bb
         with open(json_file, 'r', encoding='utf-8') as f:
             self.all_text = json.load(f)
@@ -131,8 +131,8 @@ class PPT:
 
     def __init__(self, layout=[12192000, 6858000]):     # 13.33, 7.5 inches
         self.layout = layout
-        if os.path.exists('template.pptx'):
-            self.prs = Presentation('template.pptx')    # template file with "browsed by individual window" turned on
+        if os.path.exists('/worship_ppt/template.pptx'):
+            self.prs = Presentation('/worship_ppt/template.pptx')    # template file with "browsed by individual window" turned on
             rId = self.prs.slides._sldIdLst[0].rId
             self.prs.part.drop_rel(rId)
             del self.prs.slides._sldIdLst[0]
@@ -225,7 +225,7 @@ class PPT:
             lc += n_cuts+1
             if lc > n_lines:    # create new page for every 7 lines
                 self.add_slide()
-                self.add_background('bible_background.jpg', sermon.date_type, sermon.passages_raw[0], 'church_logo.png')
+                self.add_background('/worship_ppt/bible_background.jpg', sermon.date_type, sermon.passages_raw[0], '/worship_ppt/church_logo.png')
                 self.add_textbox(txt, [0.47, 1.71, 12.4, 5.04], 20, fontname='Gulim', spacing=1.8)
                 lc = n_cuts+1
             else:
@@ -320,9 +320,9 @@ def make_verse_ppt(ppt_inputs, v=0):
     if v:
         ppt_verse = PPT()
         ppt_verse.create_verse(sermon)
-        file_name = ppt_verse.to_pptx(re.sub("\D+", "_", sermon.date_type)+'Bible')
+        file_name = ppt_verse.to_pptx('/worship_ppt/' + re.sub("\D+", "_", sermon.date_type)+'Bible')
     else:
         ppt_large = PPT()
         ppt_large.create_large(sermon)
-        file_name = ppt_large.to_pptx(re.sub("\D+", "_", sermon.date_type)+'Large')
+        file_name = ppt_large.to_pptx('/worship_ppt/' + re.sub("\D+", "_", sermon.date_type)+'Large')
     return file_name
