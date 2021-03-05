@@ -320,9 +320,9 @@ def make_verse_ppt(ppt_inputs, v=0):
     if v:
         ppt_verse = PPT()
         ppt_verse.create_verse(sermon)
-        file_name = ppt_verse.to_pptx('/worship_ppt/' + re.sub("\D+", "_", sermon.date_type)+'Bible')
+        file_name = ppt_verse.to_pptx('/worship_ppt/' + re.sub("\D+", "_", sermon.date_type)+'자막')
     else:
         ppt_large = PPT()
         ppt_large.create_large(sermon)
-        file_name = ppt_large.to_pptx('/worship_ppt/' + re.sub("\D+", "_", sermon.date_type)+'Large')
+        file_name = ppt_large.to_pptx('/worship_ppt/' + re.sub("\D+", "_", sermon.date_type)+'본문')
     return file_name

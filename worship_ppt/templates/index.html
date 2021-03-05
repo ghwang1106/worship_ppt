@@ -16,29 +16,30 @@
 </head>
 
 <body class="vsc-initialized">
-  <p>Bible to PPTX</p>
-
-  <form method="POST" action="/download">
+  <h3>OBS용 피피티 만들기</h3>
+  <form method="POST" action="/download_obs">
     <div class="bible_inputs">
-      <label> 날짜 & 예배: </label>
-      <input type="text" name="date_type">
-      <div> ex) 2021년 1월 1일 주일예배</div><br>
-      <label> 설교 제목: </label>
-      <input type="text" name="sermon_title">
-      <div> ex) 설교 제목입니다</div><br>
-      <label> 설교자: </label>
-      <input type="text" name="preacher">
-      <div> ex) 이찬우 목사</div><br>
-      <label> 본문 구절: </label>
-      <input type="text" name="main_passage">
-      <div> ex)창세기 1:1-15</div><br>
-      <label> 인용 구절: </label>
-      <input type="text" name="quotes">
-      <div> ex)창 2:3-4, 마태복음 1:1, 요한계시록 1:1-3</div><br>
+      <label> 날짜 & 예배: </label> <input type="text" name="date_type"> <label> ex) 2021년 1월 1일 주일예배</label><br>
+      <label> 설교 제목: </label> <input type="text" name="sermon_title"> <label> ex) 설교 제목입니다</label><br>
+      <label> 설교자: </label> <input type="text" name="preacher"> <label> ex) 이찬우 목사</label><br>
+      <label> 본문 구절: </label> <input type="text" name="main_passage"> <label> ex) 창세기 1:1-5</label><br>
+      <label> 인용 구절: </label> <input type="text" name="quotes">
+      <label> ex) 창 2:2-3, 롬 11:36-12:2, 요한계시록 22:21 (없을시 공백)</label><br>
     </div>
-    <input type="submit" name="action" value="Large PPT">
-    <input type="submit" name="action" value="Verse PPT">
+    <input type="submit" name="action" value="본문 PPT">
+    <input type="submit" name="action" value="자막 PPT">
+    <input type="submit" value="인트로 영상 (개발 중)">
   </form>
+
+  <hr>
+  <h3>본당용 피피티 만들기 (개발 중)</h3>
+  <form action="/download_main">
+    <label> 주보 업로드 (워드 파일): </label><input type="file" id="choose_file" name="filename"><br>
+    <input type="submit" value="본당 PPT">
+  </form>
+
+  <hr>
+  <p>제안 사항이 있으시거나, 버그를 발견하시면 ghwang1106@gmail.com 으로 연락주세요. 샬롬!</p>
 </body>
 
 </html>

@@ -20,10 +20,10 @@ def create_app():
             ppt_inputs.append(request.form['main_passage'])
             ppt_inputs.append(request.form['quotes'])
             try:
-                if request.form['action'] == 'Large PPT':
+                if request.form['action'] == '본문 PPT':
                     path = make_verse_ppt(ppt_inputs)
                     return send_file(path + '.pptx', as_attachment=True)
-                elif request.form['action'] == 'Verse PPT':
+                elif request.form['action'] == '자막 PPT':
                     path = make_verse_ppt(ppt_inputs, 1)
                     return send_file(path + '.pptx', as_attachment=True)
             except TypeError:
