@@ -16,7 +16,7 @@
 </head>
 
 <body class="vsc-initialized">
-  <h3>OBS용 피피티 만들기</h3>
+  <h3>OBS용 자료 만들기</h3>
   <form method="POST" action="/download_obs">
     <div class="bible_inputs">
       <label> 날짜 & 예배: </label> <input type="text" name="date_type"> <label> ex) 2021년 1월 1일 주일예배</label><br>
@@ -28,18 +28,18 @@
     </div>
     <input type="submit" name="action" value="본문 PPT">
     <input type="submit" name="action" value="자막 PPT">
-    <input type="submit" value="인트로 영상 (개발 중)">
+    <input type="submit" name="action" value="인트로 영상 (개발 중)">
   </form>
 
   <hr>
-  <h3>본당용 피피티 만들기 (개발 중)</h3>
+  <h3>본당 PPT 만들기 (개발 중)</h3>
+  <p>'Choose File'로 주보 파일을 선택한 후, 아래 '본당 PPT' 버튼을 눌러주세요</p>
   <form action="/download_main">
     <label> 주보 업로드 (워드 파일): </label><input type="file" id="choose_file" name="filename"><br>
     <input type="submit" value="본당 PPT">
   </form>
 
   <hr>
-  <p>제안 사항이 있으시거나, 버그를 발견하시면 ghwang1106@gmail.com 으로 연락주세요. 샬롬!</p>
 </body>
 
 </html>
