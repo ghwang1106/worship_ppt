@@ -1,45 +1,67 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://github.githubassets.com/assets/gist-embed-fade154c2b3e75984195a048041ab52d.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js"
+      integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js"
+      integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-fade154c2b3e75984195a048041ab52d.css">
-  <link rel="stylesheet" type="text/css"
-    href="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js"
-    integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js"
-    integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <body class="vsc-initialized">
+    <h3>OBS용 자료 만들기</h3>
+    <form method="POST" action="/download_obs">
+      <div class="bible_inputs">
+        <label> 날짜 & 예배: </label> <input type="text" name="date_type" />
+        <label> ex) 2021년 1월 1일 주일예배</label><br />
+        <label> 설교 제목: </label> <input type="text" name="sermon_title" />
+        <label> ex) 설교 제목입니다</label><br />
+        <label> 설교자: </label> <input type="text" name="preacher" />
+        <label> ex) 이찬우 목사</label><br />
+        <label> 본문 구절: </label> <input type="text" name="main_passage" />
+        <label> ex) 창세기 1:1-5</label><br />
+        <label> 인용 구절: </label>
+        <input type="text" name="quotes" />
+        <label>
+          ex) 창 2:2-3, 롬 11:36-12:2, 요한계시록 22:21 (없을 시 공백) </label
+        ><br />
+      </div>
+      <input type="submit" name="action" value="본문 PPT" />
+      <input type="submit" name="action" value="자막 PPT" />
+      <input type="submit" name="action" value="인트로 영상 (개발 중)" />
+    </form>
 
-</head>
+    <hr />
+    <h3>본당 PPT 만들기 (개발 중)</h3>
+    <p>
+      'Choose File'로 주보 파일을 선택한 후, 아래 '본당 PPT' 버튼을 눌러주세요
+    </p>
+    <form action="/download_main">
+      <label> 주보 업로드 (워드 파일): </label
+      ><input type="file" id="choose_file" name="filename" /><br />
+      <input type="submit" value="본당 PPT" />
+    </form>
 
-<body class="vsc-initialized">
-  <h3>OBS용 자료 만들기</h3>
-  <form method="POST" action="/download_obs">
-    <div class="bible_inputs">
-      <label> 날짜 & 예배: </label> <input type="text" name="date_type"> <label> ex) 2021년 1월 1일 주일예배</label><br>
-      <label> 설교 제목: </label> <input type="text" name="sermon_title"> <label> ex) 설교 제목입니다</label><br>
-      <label> 설교자: </label> <input type="text" name="preacher"> <label> ex) 이찬우 목사</label><br>
-      <label> 본문 구절: </label> <input type="text" name="main_passage"> <label> ex) 창세기 1:1-5</label><br>
-      <label> 인용 구절: </label> <input type="text" name="quotes">
-      <label> ex) 창 2:2-3, 롬 11:36-12:2, 요한계시록 22:21 (없을시 공백)</label><br>
-    </div>
-    <input type="submit" name="action" value="본문 PPT">
-    <input type="submit" name="action" value="자막 PPT">
-    <input type="submit" name="action" value="인트로 영상 (개발 중)">
-  </form>
-
-  <hr>
-  <h3>본당 PPT 만들기 (개발 중)</h3>
-  <p>'Choose File'로 주보 파일을 선택한 후, 아래 '본당 PPT' 버튼을 눌러주세요</p>
-  <form action="/download_main">
-    <label> 주보 업로드 (워드 파일): </label><input type="file" id="choose_file" name="filename"><br>
-    <input type="submit" value="본당 PPT">
-  </form>
-
-  <hr>
-</body>
-
+    <hr />
+  </body>
 </html>

@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "c:\\Users\\ghwan\\OneDrive\\Documents\\GitHub\\worship_ppt\\env\\Scripts\\python.exe"
+  "python.linting.pylintArgs": ["--rcfile=setup.cfg"],
+  "python.linting.pylintEnabled": true
 }
