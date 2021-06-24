@@ -17,6 +17,9 @@ livereload==2.6.3
 lxml==4.6.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
+moviepy==1.0.3
+mypy==0.910
+mypy-extensions==0.4.3
 numpy==1.20.1
 opencv-python==4.5.1.48
 pandas==1.2.3
@@ -32,7 +35,9 @@ six==1.15.0
 toml==0.10.2
 tornado==6.1
 tqdm==4.59.0
-urllib3==1.26.5
+typing-extensions==3.10.0.0
+urllib3==1.26.4
 Werkzeug==1.0.1
 wrapt==1.12.1
 XlsxWriter==1.3.7
+yapf==0.31.0

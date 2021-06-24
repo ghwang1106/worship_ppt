@@ -4,8 +4,12 @@ name: hosting
 # Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
+  pull_request:
+    branches: ["master"]
+
   push:
-    branches: [master]
+    branches: ["master"]
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -24,22 +28,14 @@ jobs:
       - name: Build and Test
         run: |
           docker-compose build
-          docker-compose run main pylint */*.py
-          docker-compose run main python -m worship_ppt.test
 
       - uses: google-github-actions/setup-gcloud@master
         with:
           version: "290.0.1"
-          project_id: seansdevnote
+          project_id: seanhwangg
           service_account_key: ${{ secrets.SERVICE_ACCOUNT_JSON }}
 
       - name: Authorize Docker push
         run: |
           gcloud auth configure-docker
           docker-compose push
-
-      - name: Deploy
-        run: |
-          gcloud run deploy worship-ppt --image gcr.io/seansdevnote/worship_ppt \
-            --region us-central1 --platform "managed" \
-            --service-account firebase-adminsdk-h70pe@seansdevnote.iam.gserviceaccount.com

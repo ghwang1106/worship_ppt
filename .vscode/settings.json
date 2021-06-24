@@ -1,4 +1,8 @@
 {
-  "python.linting.pylintArgs": ["--rcfile=setup.cfg"],
-  "python.linting.pylintEnabled": true
+  "python.linting.pylintArgs": [
+    "--rcfile=setup.cfg"
+  ],
+  "python.linting.pylintEnabled": true,
+  "python.pythonPath": "venv/bin/python",
+  "editor.tabSize": 2,
 }

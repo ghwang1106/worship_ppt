@@ -2,6 +2,8 @@ version: "3.6"
 services:
   main:
     env_file: .env
-    image: gcr.io/seansdevnote/worship_ppt
+    image: gcr.io/seanhwangg/worship_ppt
     build:
       context: .
+    ports:
+      - "0.0.0.0:8080:8080"
