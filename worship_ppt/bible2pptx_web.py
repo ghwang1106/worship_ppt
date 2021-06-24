@@ -159,11 +159,11 @@ class PPT:
     self.slide = self.prs.slides.add_slide(self.prs.slide_layouts[6])
 
   def add_background(self, img_bg, date_type, passage, img_lg):   # create background with church logo
-    self.bg = self.slide.shapes.add_picture(img_bg, 0, -Inches(0.66), width=12192000)
+    self.bg = self.slide.shapes.add_picture(img_bg.as_posix(), 0, -Inches(0.66), width=12192000)
     self.add_textbox(date_type, [0.48, 0.19, 6.62, 0.6], 16)
     self.p.alignment = PP_ALIGN.LEFT
     self.add_textbox(passage, [0.17, 0.64, 13, 0.68], 32, fontname='Gulim', spacing=1.5)
-    self.lg = self.slide.shapes.add_picture(img_lg, Inches(9.91), Inches(0.29), width=Inches(2.88))
+    self.lg = self.slide.shapes.add_picture(img_lg.as_posix(), Inches(9.91), Inches(0.29), width=Inches(2.88))
 
   def add_textbox(self, text, dim, fontsize, fontname='Malgun Gothic', spacing=1, bold=True):
     self.txBox = self.slide.shapes.add_textbox(Inches(dim[0]), Inches(dim[1]), Inches(dim[2]), Inches(dim[3]))
@@ -317,9 +317,11 @@ def make_verse_ppt(ppt_inputs, v=0):
   if v:
     ppt_verse = PPT()
     ppt_verse.create_verse(sermon)
-    file_name = ppt_verse.to_pptx(DATA_PATH / (re.sub("\D+", "_", sermon.date_type) + '자막'))
+    file_name = DATA_PATH / (re.sub("\D+", "_", sermon.date_type) + '자막')
+    file_name = ppt_verse.to_pptx(file_name.as_posix())
   else:
     ppt_large = PPT()
     ppt_large.create_large(sermon)
-    file_name = ppt_large.to_pptx(DATA_PATH / (re.sub("\D+", "_", sermon.date_type) + '본문'))
+    file_name = DATA_PATH / (re.sub("\D+", "_", sermon.date_type) + '본문')
+    file_name = ppt_large.to_pptx(file_name.as_posix())
   return file_name

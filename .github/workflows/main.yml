@@ -40,8 +40,6 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud run deploy worship_ppt \
-            --image gcr.io/seansdevnote/worship_ppt \
-            --region us-central1 \
-            --platform "managed" \
+          gcloud run deploy worship-ppt --image gcr.io/seansdevnote/worship_ppt \
+            --region us-central1 --platform "managed" \
             --service-account firebase-adminsdk-h70pe@seansdevnote.iam.gserviceaccount.com
