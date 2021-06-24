@@ -24,13 +24,12 @@ jobs:
       - name: Build and Test
         run: |
           docker-compose build
-          docker-compose run main pylint */*.py
           docker-compose run main python -m worship_ppt.test
 
       - uses: google-github-actions/setup-gcloud@master
         with:
           version: "290.0.1"
-          project_id: seansdevnote
+          project_id: seanhwangg
           service_account_key: ${{ secrets.SERVICE_ACCOUNT_JSON }}
 
       - name: Authorize Docker push
@@ -40,6 +39,6 @@ jobs:
 
       - name: Deploy
         run: |
-          gcloud run deploy worship-ppt --image gcr.io/seansdevnote/worship_ppt \
+          gcloud run deploy worship-ppt --image gcr.io/seanhwangg/worship_ppt \
             --region us-central1 --platform "managed" \
-            --service-account firebase-adminsdk-h70pe@seansdevnote.iam.gserviceaccount.com
+            --service-account firebase-adminsdk-h70pe@seanhwangg.iam.gserviceaccount.com
