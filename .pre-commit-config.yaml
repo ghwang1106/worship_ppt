@@ -7,12 +7,13 @@ repos:
     hooks:
       - id: yapf
 
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
+  - repo: local
     hooks:
-      - id: flake8
-        args: ["--config=setup.cfg"]
-        additional_dependencies: [flake8-isort]
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
