@@ -1,93 +1,22 @@
-"""
-TODO
+""" TODO
 """
 import re
-import json
-from itertools import groupby
-from docx import Document
-from docx.oxml.text.paragraph import CT_P
-from docx.oxml.table import CT_Tbl
-from docx.table import Table
-from docx.text.paragraph import Paragraph
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from worship_ppt.common import DATA_PATH, log
-
-
-class Hymn():
-  """
-  TODO
-  """
-
-  def __init__(self, json_file=DATA_PATH / 'hymn.json'):
-    with open(json_file, 'r', encoding='utf-8') as f:
-      self.all = json.load(f)
-
-  def lookup(self, song_type='hymn', number=0, title=''):
-    try:
-      song_received = next(item for item in self.all
-                           if item['song_type'] == song_type and
-                           item['number'] == number and title in item['title'])
-    except StopIteration:
-      print('  >>WARNING: Song not found (' + locals()['title'] + ')')
-      song_received = {
-          'song_type': song_type,
-          'number': number,
-          'title': title,
-          'lyrics': ['(가사가 DB에 없습니다)']
-      }
-    return song_received
-
-
-class Jubo():
-  """ TODO
-  """
-
-  def __init__(self, jubo_file):
-    jubo_raw = Document(jubo_file)
-    all_text = []
-    for block in self.iter_block_items(jubo_raw):
-      if not isinstance(block, Table):
-        continue
-      for row in block.rows:
-        row_data = [cell.text for cell in row.cells]
-        if not row_data:
-          continue
-        for item in set(row_data):
-          all_text.append(item)
-    self.all_text = [x[0] for x in groupby(all_text)]
-
-  def iter_block_items(self, jubo_raw):
-    for content in jubo_raw.element.body.iterchildren():
-      if isinstance(content, CT_P):
-        yield Paragraph(content, jubo_raw)
-      elif isinstance(content, CT_Tbl):
-        yield Table(content, jubo_raw)
-
-  def grab_section(self, s_start, s_finish):
-    if isinstance(int, s_finish):
-      return self.all_text[self.find_index(self.all_text, s_start)[0]:self.
-                           find_index(self.all_text, s_start)[0] + s_finish]
-    else:
-      return self.all_text[self.find_index(self.all_text, s_start)[0]:self.
-                           find_index(self.all_text, s_finish)[0]]
-
-  def find_index(self, l, s):
-    return [i for i, ll in enumerate(l) if s in ll]
+from worship_ppt.common import log
 
 
 class PPT:
-  """
-  TODO
+  """ TODO
   """
 
   def __init__(self, layout=None):
     self.layout = layout if layout else [10, 7.5]
     self.prs = Presentation()
-    self.prs.slide_width, self.prs.slide_height = Inches(layout[0]), Inches(
-        layout[1])
+    self.prs.slide_width, self.prs.slide_height = Inches(
+        self.layout[0]), Inches(self.layout[1])
 
   def make_announcement(self, announcement):
     for s in announcement:
@@ -140,7 +69,7 @@ class PPT:
         self.add_slide()
       elif s == '대표기도':
         f_cong_pray = 1
-        self.add_textbox('대표 기도\n', [0, 0.95, 10, 2.25], 44, newslide=0)
+        self.add_textbox('대표 기도\n', [0, 0.95, 10, 2.25], 44, new_slide=False)
       elif f_cong_pray:
         f_cong_pray = 0
         self.add_paragraph(s, 44)
@@ -166,6 +95,12 @@ class PPT:
     self.add_paragraph(title[-1], 32)
     self.add_slide()
     self.add_textbox('축  도', [0, 1.3, 10, 2.25], 44)
+
+  def make_hymn(self, hymn, hymn_no):
+    for i in enumerate(re.split(r'\D+', hymn_no.strip())):
+      if int(i[1]) >= 1 & int(i[1]) <= 645:
+        self.add_lyrics(hymn, number=i[1])
+        self.add_slide()
 
   def add_lyrics(self,
                  hymn,
@@ -196,88 +131,70 @@ class PPT:
       self.p.space_before = Pt(3)
     lyrics = [x.split('\n\n') for x in lyrics]
     lyrics = [item for elem in lyrics for item in elem]
-    self.add_textbox(lyrics[0], [10 - w, 3.7, w, 3.76], 28, newslide=0)
+    self.add_textbox(lyrics[0], [10 - w, 3.7, w, 3.76], 28, new_slide=False)
     for h in range(1, len(lyrics)):
       self.add_textbox(lyrics[h], [10 - w, 3.7, w, 3.76], 28)
 
-  def add_slide(self, n=1):  # create new blank slide
-    for _ in range(n):
+  def add_slide(self, n_slide=1):  # create new blank slide
+    for _ in range(n_slide):
       self.slide = self.prs.slides.add_slide(self.prs.slide_layouts[6])
       self.slide.background.fill.solid()
 
   def add_textbox(self,
                   text,
                   dim,
-                  fontsize,
-                  fontname='Malgun Gothic',
+                  font_size,
+                  font_name='Malgun Gothic',
                   spacing=1.1,
                   bold=True,
                   align=PP_ALIGN.CENTER,
-                  newslide=1):
-    if newslide:
+                  new_slide=True):
+    if new_slide:
       self.add_slide()
     self.tx_box = self.slide.shapes.add_textbox(Inches(dim[0]), Inches(dim[1]),
                                                 Inches(dim[2]), Inches(dim[3]))
     self.p = self.tx_box.text_frame.paragraphs[0]
-    self.format_text(text, fontsize, fontname, spacing, bold, align)
+    self.format_text(text, font_size, font_name, spacing, bold, align)
 
   def add_paragraph(self,
                     text,
-                    fontsize,
-                    fontname='Malgun Gothic',
+                    font_size,
+                    font_name='Malgun Gothic',
                     spacing=1.1,
                     bold=True,
                     align=PP_ALIGN.CENTER):
     self.p = self.tx_box.text_frame.add_paragraph()
-    self.format_text(text, fontsize, fontname, spacing, bold, align)
+    self.format_text(text, font_size, font_name, spacing, bold, align)
 
   def format_text(self,
                   text,
-                  fontsize,
-                  fontname='Malgun Gothic',
+                  font_size,
+                  font_name='Malgun Gothic',
                   spacing=1.1,
                   bold=True,
                   align=PP_ALIGN.CENTER):
     self.p.text = text
-    self.p.font.name = fontname
-    self.p.font.size = Pt(fontsize)
+    self.p.font.name = font_name
+    self.p.font.size = Pt(font_size)
     self.p.alignment = align
     self.p.space_before = Pt(6)
     self.p.line_spacing = spacing
     self.p.font.bold = bold
+    self.p.font.color.rgb = RGBColor(255, 255, 255)
     self.tx_box.text_frame.vertical_anchor = MSO_ANCHOR.TOP
     self.tx_box.text_frame.word_wrap = True
-    self.p.font.color.rgb = RGBColor(255, 255, 255)
-
-  def make_bold(self):
-    self.p.font.bold = True
 
   def text_length(self, v):
     l = [i * 28 / 22 for i in [0.32, 0.14, 0.08]
-        ]  # Malgun Gothic character lengths in inches (fontsize = 28)
+        ]  # Malgun Gothic character lengths in inches (font_size = 28)
     n_all, n_num, n_spe = len(v), len(re.sub(r'[\D]+', '',
                                              v)), len(re.sub(r'[\w]+', '', v))
     return (n_all - n_spe - n_num) * l[0] + n_num * l[1] + n_spe * l[2]
 
   def to_pptx(self, path):
-    self.prs.save(path + '.pptx')
-    return path  # save to pptx with specified path
-
-
-def make_main_ppt(jubo_path):
-  hymn = Hymn()
-  jubo = Jubo(jubo_path)
-  jubo.sermon = jubo.grab_section('2021년 표어', 2)[1].strip('\n')
-  jubo.announcement = jubo.grab_section('우리 교회에 처음 오신 성도님들을', 3)[2].split('\n')
-  jubo.worship_order = jubo.grab_section('입례송', '성경봉독')
-
-  worship_ppt = PPT()
-  worship_ppt.add_slide()
-  worship_ppt.make_announcement(jubo.announcement)
-  worship_ppt.make_worship1(jubo.worship_order, hymn)
-  worship_ppt.make_worship2(jubo.sermon)
-
-  file_name = DATA_PATH / 'worship'
-  file_name = worship_ppt.to_pptx(file_name.as_posix())
-
-  return file_name
+    try:
+      self.prs.save(path + '.pptx')  # save to pptx with specified path
+    except PermissionError:
+      path = path + '1'
+      self.to_pptx(path)
+    return path

@@ -15,6 +15,7 @@ from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
 from worship_ppt.common import DATA_PATH, log
+from worship_ppt.sermon import Sermon
 
 
 class Bible:
@@ -77,92 +78,8 @@ class Bible:
       sys.exit('  >> ERROR: Bible verse out of index!')
 
 
-class Sermon:
-  """
-  TODO
-  """
-
-  def __init__(self, bible: pd.DataFrame, raw_inputs):
-    self.bible = bible
-
-    if len(raw_inputs) > 4:
-      if raw_inputs[4].isspace() or raw_inputs[4] == '':  # Remove extra lines
-        raw_inputs = raw_inputs[:4]
-
-    # assign to variables (order must match!)
-    self.date_type, self.title, self.preacher, passage = raw_inputs[:4]
-
-    try:
-      if int(self.date_type[:3]) != 202 or sum(x.isdigit()
-                                               for x in self.date_type) < 6:
-        log.warning('Check dates')
-    except ValueError:
-      log.warning('Check dates')
-    passages_raw = [x.strip() for x in passage.split(',')]
-    self.passages_raw, self.passages_ind = self.passages_raw2ind(passages_raw)
-
-    if len(self.passages_raw
-          ) > 1:  # if there are multiple blocks of text within the main passage
-      if len({a.split(' ')[0] for a in self.passages_raw}) == 1:
-        if len({a.split(' ')[-1].split(':')[0] for a in self.passages_raw
-               }) == 1:
-          self.passages_raw[1:] = [
-              a.split(':')[-1] for a in self.passages_raw[1:]
-          ]
-        else:
-          self.passages_raw[1:] = [
-              a.split(' ')[-1] for a in self.passages_raw[1:]
-          ]
-      self.passages_raw = [', '.join(self.passages_raw)]
-
-    if len(raw_inputs
-          ) == 5:  # if there are quotes to include other than the main passage
-      quotes_raw = [x.strip() for x in raw_inputs[4].split(',')]
-      self.quotes_raw, self.quotes_ind = self.passages_raw2ind(quotes_raw)
-    else:
-      self.quotes_ind = []
-
-  def passages_raw2ind(self, passages_raw):
-    passages_ind = []
-
-    for i, passage_raw in enumerate(passages_raw):
-      assert passage_raw.count(
-          ' ') == 1, 'Passage Format Error: Each passage should have one blank'
-      [book, verses] = passages_raw[i].split()
-      if book in list(
-          self.bible.Abbr
-      ):  # if only abbreviation of the book is given, turn it into full name
-        passages_raw[i] = self.bible.Full[int(
-            self.bible[self.bible.Abbr == book].index[0])] + ' ' + verses
-      passages_ind.append(self.parse_passage(passages_raw[i]))
-
-    return passages_raw, passages_ind
-
-  def parse_passage(self, passage):
-    try:
-      book, verse_range = passage.split()
-      book_ind = self.bible.Eng[int(
-          self.bible[self.bible.Full == book].index[0])]
-    except (ValueError, IndexError) as e:
-      raise f'Bible book not recognizable ({passage})' from e
-
-    try:
-      if '-' in verse_range:
-        verses = verse_range.split('-')
-        if ':' not in verses[1]:
-          verses[1] = verses[0].split(':')[0] + ':' + verses[1]
-        verses[0] = [int(i) for i in verses[0].split(':')]
-        verses[1] = [int(i) for i in verses[1].split(':')]
-      else:
-        verses = [[int(i) for i in verse_range.split(':')] for _ in range(2)]
-    except (ValueError, IndexError) as e:
-      raise 'Incorrect verse (check line 4-5 in prep file for typos)' from e
-
-    return [book_ind, *verses]
-
-
 class PPT:
-  """ TODO
+  """ TODO Remove this class
   """
 
   def __init__(self, layout=None):  # 13.33, 7.5 inches
@@ -212,7 +129,7 @@ class PPT:
     self.p.alignment = PP_ALIGN.LEFT
     self.add_textbox(passage, [0.17, 0.64, 13, 0.68],
                      32,
-                     fontname='Gulim',
+                     font_name='Gulim',
                      spacing=1.5)
     self.lg = self.slide.shapes.add_picture(img_lg.as_posix(),
                                             Inches(9.91),
@@ -222,33 +139,33 @@ class PPT:
   def add_textbox(self,
                   text,
                   dim,
-                  fontsize,
-                  fontname='Malgun Gothic',
+                  font_size,
+                  font_name='Malgun Gothic',
                   spacing=1,
                   bold=True):
     self.tb_box = self.slide.shapes.add_textbox(Inches(dim[0]), Inches(dim[1]),
                                                 Inches(dim[2]), Inches(dim[3]))
     self.p = self.tb_box.text_frame.paragraphs[0]
-    self.format_text(text, fontsize, fontname, spacing, bold)
+    self.format_text(text, font_size, font_name, spacing, bold)
 
   def add_paragraph(self,
                     text,
-                    fontsize,
-                    fontname='Malgun Gothic',
+                    font_size,
+                    font_name='Malgun Gothic',
                     spacing=1,
                     bold=True):
     self.p = self.tb_box.text_frame.add_paragraph()
-    self.format_text(text, fontsize, fontname, spacing, bold)
+    self.format_text(text, font_size, font_name, spacing, bold)
 
   def format_text(self,
                   text,
-                  fontsize,
-                  fontname='Malgun Gothic',
+                  font_size,
+                  font_name='Malgun Gothic',
                   spacing=1,
                   bold=True):
     self.p.text = text
-    self.p.font.name = fontname
-    self.p.font.size = Pt(fontsize)
+    self.p.font.name = font_name
+    self.p.font.size = Pt(font_size)
     self.p.alignment = PP_ALIGN.CENTER
     self.p.space_before = Pt(6)
     self.p.line_spacing = spacing
@@ -308,11 +225,11 @@ class PPT:
                             DATA_PATH / 'church_logo.png')
         self.add_textbox(txt, [0.47, 1.71, 12.4, 5.04],
                          20,
-                         fontname='Gulim',
+                         font_name='Gulim',
                          spacing=1.8)
         lc = n_cuts + 1
       else:
-        self.add_paragraph(txt, 20, fontname='Gulim', spacing=1.8)
+        self.add_paragraph(txt, 20, font_name='Gulim', spacing=1.8)
       self.p.alignment = PP_ALIGN.LEFT
       self.tb_box.text_frame.vertical_anchor = MSO_ANCHOR.TOP
 
@@ -401,21 +318,18 @@ class PPT:
     return path
 
 
-def make_verse_ppt(ppt_inputs: list, v=0) -> str:
+def make_verse_ppt(ppt_inputs: list, v=False) -> str:
   bb = pd.read_csv(DATA_PATH / 'bible_info.csv')
   bible = Bible(bb)
   sermon = Sermon(bb, ppt_inputs)
   sermon.passages_ext = bible.lookup(sermon.passages_ind)
   sermon.quotes_ext = bible.lookup(sermon.quotes_ind)
 
+  ppt = PPT()
   if v:
-    ppt_verse = PPT()
-    ppt_verse.create_verse(sermon)
+    ppt.create_verse(sermon)
     file_name = DATA_PATH / (re.sub(r'\D+', '_', sermon.date_type) + '자막')
-    file_name = ppt_verse.to_pptx(file_name.as_posix())
   else:
-    ppt_large = PPT()
-    ppt_large.create_large(sermon)
+    ppt.create_large(sermon)
     file_name = DATA_PATH / (re.sub(r'\D+', '_', sermon.date_type) + '본문')
-    file_name = ppt_large.to_pptx(file_name.as_posix())
-  return file_name
+  return ppt.to_pptx(file_name.as_posix())
