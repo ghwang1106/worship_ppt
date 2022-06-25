@@ -28,14 +28,3 @@ jobs:
       - name: Build and Test
         run: |
           docker-compose build
-
-      - uses: google-github-actions/setup-gcloud@master
-        with:
-          version: "290.0.1"
-          project_id: seanhwangg
-          service_account_key: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-
-      - name: Authorize Docker push
-        run: |
-          gcloud auth configure-docker
-          docker-compose push
