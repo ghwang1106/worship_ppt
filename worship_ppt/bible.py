@@ -94,7 +94,8 @@ class PPT:
       self.prs = Presentation()  # starting from default settings
     self.prs.slide_width, self.prs.slide_height = self.layout
 
-  def create_verse(self, sermon):  # Bible.pptx format (verses and hyperlinks)
+  def create_verse(self, sermon: Sermon,
+                   quote_ext):  # Bible.pptx fmt (verse, hyperlink)
     self.add_slide()  # create title slide
     if '"' in sermon.title:
       self.add_textbox(sermon.title, [1.67, 0.08, 10, 1.2], 26, spacing=1.1)
@@ -107,7 +108,7 @@ class PPT:
 
     p = self.add_verse_slides(sermon.passages_ext,
                               'p')  # add verses in main passage
-    q = self.add_verse_slides(sermon.quotes_ext, 'q')  # add verses to quote
+    q = self.add_verse_slides(quote_ext, 'q')  # add verses to quote
 
     for slide in self.prs.slides:
       self.slide = slide
@@ -210,7 +211,7 @@ class PPT:
 
     return passage
 
-  def add_large_slides(self, sermon, passage, n_lines):
+  def add_large_slides(self, sermon, passage, n_lines) -> None:
     lc = n_lines  # count number of lines
     for v in sermon.passages_ext:
       txt = self.verse_style(v, passage)
@@ -257,7 +258,7 @@ class PPT:
     self.shape.click_action.target_slide = self.prs.slides[
         slide_num]  # add hyperlink to slide
 
-  def verse_style(self, v, style):
+  def verse_style(self, v, style) -> str:
     if style == 'book' or len({row[0]
                                for row in style}) > 1:  # if multiple books
       txt = v[0] + str(v[2][0]) + ':' + str(v[2][1]) + ' ' + v[3]
@@ -267,13 +268,11 @@ class PPT:
       txt = str(v[2][1]) + '. ' + v[3]
     return txt
 
-  def verse_length(self, v, middle=0) -> int:
+  def verse_length(self, v, middle=0) -> tuple[int]:
     if middle:
-      left, mid, right = [0.32, 0.14,
-                          0.08]  # Malgun Gothic character lengths in inches
+      left, mid, right = [0.32, 0.14, 0.08]  # Malgun Gothic char len in inches
     else:
-      left, mid, right = [0.27, 0.145,
-                          0.09]  # Gulim character lengths in inches
+      left, mid, right = [0.27, 0.145, 0.09]  # Gulim char lengths in inches
     n_all, n_num, n_spe = len(v), len(re.sub(r'[\D]+', '',
                                              v)), len(re.sub(r'[\w]+', '', v))
     return n_all, (n_all - n_spe - n_num) * left + n_num * mid + n_spe * right
@@ -323,11 +322,10 @@ def make_verse_ppt(ppt_inputs: list, v=False) -> str:
   bible = Bible(bb)
   sermon = Sermon(bb, ppt_inputs)
   sermon.passages_ext = bible.lookup(sermon.passages_ind)
-  sermon.quotes_ext = bible.lookup(sermon.quotes_ind)
 
   ppt = PPT()
   if v:
-    ppt.create_verse(sermon)
+    ppt.create_verse(sermon, bible.lookup(sermon.quotes_ind))
     file_name = DATA_PATH / (re.sub(r'\D+', '_', sermon.date_type) + '자막')
   else:
     ppt.create_large(sermon)
