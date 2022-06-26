@@ -2,25 +2,29 @@
 TODO
 """
 
+__version__ = '0.0.1'
+
 from flask import Flask, request, render_template, send_file, flash
 import logging
 from livereload import Server
 from worship_ppt.bible import make_verse_ppt
 from worship_ppt.jubo import make_main_ppt
 from worship_ppt.hymn import make_hymn_ppt
-from worship_ppt.common import DATA_PATH
+from worship_ppt.common import DATA_PATH, log
 
 
 def create_app():
+  log.info('Creating App')
   app = Flask(__name__)
   app.secret_key = 'hello'
 
   @app.route('/', methods=['GET'])
   def index():  # pylint: disable=W0612
-    return render_template('index.html')
+    return render_template('index.html', version_str=__version__)
 
-  @app.route('/download_obs', methods=['GET', 'POST'])
+  @app.route('/download_obs', methods=['POST'])
   def download_obs():  # pylint: disable=W0612
+    log.info('Download obs')
     if request.method != 'POST':
       return
 
@@ -36,8 +40,9 @@ def create_app():
     except (TypeError, IndexError, AssertionError) as _:
       return ('', 204)
 
-  @app.route('/download_jubo', methods=['GET', 'POST'])
+  @app.route('/download_jubo', methods=['POST'])
   def download_jubo():  # pylint: disable=W0612
+    log.info('Download jubo')
     if request.method != 'POST' or not request.files:
       return
 
@@ -53,8 +58,9 @@ def create_app():
       flash('워드 파일이 필요합니다.', 'warning')
       return render_template('index.html')
 
-  @app.route('/download_hymn', methods=['GET', 'POST'])
+  @app.route('/download_hymn', methods=['POST'])
   def download_hymn():  # pylint: disable=W0612
+    log.info('Download hymn')
     if request.method != 'POST':
       return
 
@@ -73,7 +79,7 @@ def create_app():
 
 
 if __name__ == '__main__':
-  my_app = create_app()
   logging.basicConfig(level='DEBUG')
+  my_app = create_app()
   server = Server(my_app.wsgi_app)
-  server.serve(debug=True)
+  server.serve(port=8080, debug=True)

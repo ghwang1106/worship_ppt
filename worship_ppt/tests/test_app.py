@@ -5,7 +5,7 @@ API test for worship_ppt
 
 import pytest
 from worship_ppt.app import create_app
-from worship_ppt.common import log
+from worship_ppt.common import log, DATA_PATH
 
 
 @pytest.fixture()
@@ -47,6 +47,13 @@ def test_download_obs(client):
                              'main_passage': '창세기 1:1-5',
                              'quotes': ''
                          })
+  assert response.status_code == 200
+
+
+def test_jubo(client):
+  response = client.post(
+      '/download_jubo',
+      data={'filename': (DATA_PATH / '6-26-22.docx').open('rb')})
   assert response.status_code == 200
 
 

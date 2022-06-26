@@ -9,7 +9,7 @@ pre-commit run --all-files
 python3 -m venv venv
 
 # 2. Run using docker-compose
-docker-compose up --build -d
+docker-compose up --build
 ```
 
 ## Deployment

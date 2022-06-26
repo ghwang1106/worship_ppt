@@ -37,11 +37,14 @@ class PPT:
         self.add_paragraph(s_content, 40)
 
   def make_worship1(self, worship_order, hymn):
-    worship_order = [elem for elem in worship_order if elem not in ['예배기원', '인도자', '참회기도', '다함께']]
+    worship_order = [
+        elem for elem in worship_order
+        if elem not in ['예배기원', '인도자', '참회기도', '다함께']
+    ]
     headers = ['입례송', '신앙고백', '찬양', '대표기도', '봉헌/기도']
     for s in worship_order:
       if s in headers:
-          header = s
+        header = s
       elif header in ['입례송', '찬양']:
         if '[찬송가' in s:
           hymn_title, hymn_num = [
@@ -50,10 +53,7 @@ class PPT:
           self.add_lyrics(hymn, title=hymn_title, number=hymn_num)
         else:
           for song_title in s.split('\n'):
-            """ TODO
-            update CCM DB
-            add code to search for CCM lyrics here
-            """
+            # TODO update CCM DB add code to search for CCM lyrics here
             self.add_textbox(song_title, [1, 1, 9, 6.5], 44, spacing=1.1)
         self.add_slide()
       elif header == '신앙고백':
@@ -67,27 +67,36 @@ class PPT:
             '죄를 사하여 주시는 것과,\n몸이 다시 사는 것과,\n영원히 사는 것을 믿사옵나이다.\n아멘'
         ]
         self.add_textbox(creed_text[0],
-                         [sum(x) for x in zip(d, [0, -0.8, 0, 0])], 44, align=PP_ALIGN.CENTER)
+                         [sum(x) for x in zip(d, [0, -0.8, 0, 0])],
+                         44,
+                         align=PP_ALIGN.CENTER)
         self.add_paragraph('', 5)
-        self.add_paragraph(creed_text[1], 40, align=PP_ALIGN.CENTER, spacing=1.1)
+        self.add_paragraph(creed_text[1],
+                           40,
+                           align=PP_ALIGN.CENTER,
+                           spacing=1.1)
         for ac in range(2, 6):
-          self.add_textbox(creed_text[ac], d, 40, align=PP_ALIGN.CENTER, spacing=1.1)
+          self.add_textbox(creed_text[ac],
+                           d,
+                           40,
+                           align=PP_ALIGN.CENTER,
+                           spacing=1.1)
         self.add_slide()
       elif header == '대표기도':
         self.add_textbox('대표 기도', [1, 1, 9, 6.5], 44, new_slide=False)
         self.add_paragraph(s, 44)
       elif header == '봉헌/기도':
-        """ TODO
-        Allow lyrics to have variation? (here we only sing 1,3,4 lines of hymn 50 verse 1)
-        """
+        # TODO Allow lyric variation (only sing 1,3,4 lines of hymn 50 verse 1)
         self.add_slide()
         self.add_textbox('봉  헌', [1, 1, 9, 6.5], 48)
         if '[찬송가' in s:
-            hymn_title, hymn_num = [x.strip().strip('"').strip('장]') for x in s.split('[찬송가')]
-            self.add_lyrics(title=hymn_title, number=hymn_num, verses=[1])
-        else: # some days we have solos 
-            self.add_textbox(s, [1, 1, 9, 6.5], 44, spacing=1.1)
-      else: # catch all - perhaps add an error message?
+          hymn_title, hymn_num = [
+              x.strip().strip('"').strip('장]') for x in s.split('[찬송가')
+          ]
+          self.add_lyrics(hymn, title=hymn_title, number=hymn_num, verses=[1])
+        else:  # some days we have solos
+          self.add_textbox(s, [1, 1, 9, 6.5], 44, spacing=1.1)
+      else:  # catch all - perhaps add an error message?
         self.add_textbox(s, [1, 1, 9, 6.5], 44, spacing=1.1)
         self.add_slide()
 
@@ -105,7 +114,7 @@ class PPT:
 
   def make_hymn(self, hymn, hymn_no):
     for i in enumerate(re.split(r'\D+', hymn_no.strip())):
-      if int(i[1]) >= 1 & int(i[1]) <= 645:
+      if 1 <= int(i[1]) <= 645:
         self.add_lyrics(hymn, number=i[1])
         self.add_slide()
 
@@ -124,14 +133,15 @@ class PPT:
     else:
       lyrics = [lyrics[v - 1] for v in verses]
 
-    self.add_textbox(song_received['title'].split(' [')[0],
-                     [1, 0.4, 9, 1], 
+    self.add_textbox(song_received['title'].split(' [')[0], [1, 0.4, 9, 1],
                      44,
                      spacing=1)
     self.tx_box.text_frame.vertical_anchor = MSO_ANCHOR.BOTTOM
     self.p.font.underline = True
     if song_type == 'hymn':
-      self.add_paragraph('(찬송가' + str(song_received['number']) + ')', 28, spacing=1)
+      self.add_paragraph('(찬송가' + str(song_received['number']) + ')',
+                         28,
+                         spacing=1)
       self.p.space_before = Pt(3)
     lyrics = [x.split('\n\n') for x in lyrics]
     lyrics = [item for elem in lyrics for item in elem]
