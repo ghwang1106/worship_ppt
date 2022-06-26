@@ -98,7 +98,7 @@ class PPT:
 
   def make_hymn(self, hymn, hymn_no):
     for i in enumerate(re.split(r'\D+', hymn_no.strip())):
-      if int(i[1]) >= 1 & int(i[1]) <= 645:
+      if 1 <= int(i[1]) <= 645:
         self.add_lyrics(hymn, number=i[1])
         self.add_slide()
 

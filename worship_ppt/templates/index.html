@@ -16,29 +16,45 @@
 	<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js"
 		integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+
 </head>
 
 <body>
 	<br />
 	<div class="container">
-		<h3>OBS 자료 만들기</h3>
+		<h3>OBS 자료 만들기 (v. {{ version_str }} ) </h3>
 		<form method="POST" action="/download_obs">
 			<div class="bible_inputs">
-				<label> 날짜 & 예배: </label> <input type="text" name="date_type" size="30" />
-				<label> ex) 2021년 1월 1일 주일예배</label><br />
-				<label> 설교 제목: </label> <input type="text" name="sermon_title" size="30" />
-				<label> ex) 설교 제목입니다</label><br />
-				<label> 설교자: </label> <input type="text" name="preacher" size="30" />
-				<label> ex) 이찬우 목사</label><br />
-				<label> 본문 구절: </label> <input type="text" name="main_passage" size="30" />
-				<label> ex) 창세기 1:1-5</label><br />
-				<label> 인용 구절: </label>
-				<input type="text" name="quotes" size="30" />
-				<label>
-					ex) 창 2:2-3, 롬 11:36-12:2, 요한계시록 22:21 (없을 시 공백) </label><br />
-			</div>
-			<input type="submit" name="action" value="본문 PPT" />
-			<input type="submit" name="action" value="자막 PPT" />
+				<table>
+					<tr>
+						<td><label> 날짜 & 예배 </label> </td>
+						<td><input type="text" name="date_type" size="30" /></td>
+						<td><label> ex) 2022년 2월 2일 주일예배</label><br /></td>
+					</tr>
+					<tr>
+						<td> <label> 설교 제목 </label> </td>
+						<td> <input type="text" name="sermon_title" size="30" /> </td>
+						<td> <label> ex) 설교 제목입니다</label><br /> </td>
+					</tr>
+					<tr>
+						<td> <label> 설교자 </label> </td>
+						<td> <input type="text" name="preacher" size="30" /> </td>
+						<td> <label> ex) 이찬우 목사</label><br /> </td>
+					</tr>
+					<tr>
+						<td> <label> 본문 구절 </label> </td>
+						<td> <input type="text" name="main_passage" size="30" /> </td>
+						<td> <label> ex) 창세기 1:1-5</label><br /> </td>
+					</tr>
+					<tr>
+						<td> <label> 인용 구절 </label> </td>
+						<td> <input type="text" name="quotes" size="30" /> </td>
+						<td> <label> ex) 창 2:2-3, 롬 11:36-12:2, 요한계시록 22:21 (없을 시 공백) </label> </td>
+					</tr>
+				</table>
+				<input type="submit" name="action" value="본문 PPT" />
+				<input type="submit" name="action" value="자막 PPT" />
 		</form>
 		<hr />
 	</div>
@@ -56,14 +72,14 @@
 		<hr />
 	</div>
 
-
 	<div class="container">
 		<h3>찬송가 PPT</h3>
 		<form method="POST" action="/download_hymn">
 			<div class="hymn_info">
-				<label> 찬송가 장 수: </label> <input type="text" name="hymn_no" size="30" />
-				<label> ex) 50, 125, 400 (숫자만 입력)</label><br />
+				<label> 찬송가 장 수 </label> <input type="number" name="hymn_no" size="30" min="1" max="645" />
 			</div>
+			<div id="add"> Add</div>
+			<div id="hymns"></div>
 			<input type="submit" name="action" value="찬송가 PPT" />
 		</form>
 		<hr />
