@@ -38,7 +38,7 @@ class Jubo:
         yield Table(content, jubo_raw)
 
   def grab_section(self, s_start, s_finish):
-    if isinstance(int, s_finish):
+    if isinstance(s_finish, int):
       return self.all_text[self.find_index(self.all_text, s_start)[0]:self.
                            find_index(self.all_text, s_start)[0] + s_finish]
     else:
