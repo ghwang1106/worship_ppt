@@ -16,11 +16,11 @@ export const Footer = () => {
       <div className="container">
         <span className="text-white">
           &#169;
-          {`${new Date().getFullYear()} Company Inc. All Rights Reserved`}
+          {`${new Date().getFullYear()} All Rights Reserved`}
         </span>
         <div className="float-right">
           <a
-            href="https://github.com/martindavid/flask-react-docker-app"
+            href="https://github.com/ghwang1106/worship_ppt"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -5,6 +5,7 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from worship.common import log
 from worship.hymn import Hymn
 
 
@@ -37,6 +38,7 @@ class PPT:
         self.add_paragraph(s_content, 40)
 
   def make_worship1(self, worship_order, hymn):
+    log.info(worship_order)
     worship_order = [
         elem for elem in worship_order
         if elem not in ['예배기원', '인도자', '참회기도', '다함께']

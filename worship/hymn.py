@@ -3,8 +3,7 @@ TODO
 """
 import json
 
-from worship.common import DATA_PATH, log
-from worship.ppt import PPT
+from worship.common import log, DATA_PATH
 
 
 class Hymn:
@@ -29,11 +28,3 @@ class Hymn:
           'lyrics': ['(가사가 DB에 없습니다)']
       }
     return song_received
-
-
-def make_hymn_ppt(hymn_no):
-  hymn = Hymn()
-  worship_ppt = PPT()
-  worship_ppt.make_hymn(hymn, hymn_no)
-
-  return worship_ppt.to_pptx((DATA_PATH / 'hymn').as_posix())

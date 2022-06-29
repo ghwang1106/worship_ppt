@@ -5,3 +5,16 @@ export type User = {
   admin: boolean;
   active: boolean;
 };
+
+export type Verse = {
+  name: string;
+  chapter: number;
+  verse: number;
+}
+
+export type Song = {
+  id: string;
+  type: string;
+}
+
+// export type
