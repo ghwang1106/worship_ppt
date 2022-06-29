@@ -94,7 +94,8 @@ class PPT:
       self.prs = Presentation()  # starting from default settings
     self.prs.slide_width, self.prs.slide_height = self.layout
 
-  def create_verse(self, sermon):  # Bible.pptx format (verses and hyperlinks)
+  def create_verse(self, sermon: Sermon,
+                   quote_ext):  # Bible.pptx fmt (verse, hyperlink)
     self.add_slide()  # create title slide
     if '"' in sermon.title:
       self.add_textbox(sermon.title, [1.67, 0.08, 10, 1.2], 26, spacing=1.1)
@@ -107,7 +108,7 @@ class PPT:
 
     p = self.add_verse_slides(sermon.passages_ext,
                               'p')  # add verses in main passage
-    q = self.add_verse_slides(sermon.quotes_ext, 'q')  # add verses to quote
+    q = self.add_verse_slides(quote_ext, 'q')  # add verses to quote
 
     for slide in self.prs.slides:
       self.slide = slide
@@ -210,7 +211,7 @@ class PPT:
 
     return passage
 
-  def add_large_slides(self, sermon, passage, n_lines):
+  def add_large_slides(self, sermon, passage, n_lines) -> None:
     lc = n_lines  # count number of lines
     for v in sermon.passages_ext:
       txt = self.verse_style(v, passage)
@@ -257,7 +258,7 @@ class PPT:
     self.shape.click_action.target_slide = self.prs.slides[
         slide_num]  # add hyperlink to slide
 
-  def verse_style(self, v, style):
+  def verse_style(self, v, style) -> str:
     if style == 'book' or len({row[0]
                                for row in style}) > 1:  # if multiple books
       txt = v[0] + str(v[2][0]) + ':' + str(v[2][1]) + ' ' + v[3]
@@ -267,45 +268,41 @@ class PPT:
       txt = str(v[2][1]) + '. ' + v[3]
     return txt
 
-  def verse_length(self, v, middle=0) -> int:
-    if middle:
-      left, mid, right = [0.32, 0.14,
-                          0.08]  # Malgun Gothic character lengths in inches
-    else:
-      left, mid, right = [0.27, 0.145,
-                          0.09]  # Gulim character lengths in inches
+  def verse_length(self, v, middle=False) -> tuple:
+    left, mid, right = [0.32, 0.14, 0.08] if middle else [
+        0.27, 0.145, 0.09
+    ]  # Malgun Gothic char len in inches
     n_all, n_num, n_spe = len(v), len(re.sub(r'[\D]+', '',
                                              v)), len(re.sub(r'[\w]+', '', v))
     return n_all, (n_all - n_spe - n_num) * left + n_num * mid + n_spe * right
 
-  def verse_cut(self, v, middle=0):
+  def verse_cut(self, v, middle=False):
     line_length = 12
     n_all, v_length = self.verse_length(v, middle)
 
-    if v_length > line_length:  # if verse is longer than 12 inches, add breaks
-      if middle:  # For verse PPT, for Gulim
-        n_cuts = int((v_length + 3) // line_length)
-        i_cut = v.rindex(' ')
-        i = n_all
-        for c in range(n_cuts):
-          avg_length = self.verse_length(v[:i], 1)[1] / (n_cuts + 1 - c)
-          while self.verse_length(v[v.rindex(' ', 0, i_cut) + 1:i],
-                                  1)[1] < avg_length:
-            i_cut -= 1
-          i = i_cut + 1
-          v = v[:v.rindex(' ', 0, i)] + '\n' + v[v.rindex(' ', 0, i) + 1:]
-      else:  # For large PPT, for Malgun Gothic
-        i, i_cut, i_space = 0, 0, 0
-        while self.verse_length(v[i:])[1] > line_length:
-          i_cut += 1
-          if self.verse_length(v[i:i_cut])[1] > line_length:
-            v = v[:i_space] + '\n     ' + v[i_space + 1:]
-            i, i_cut = i_space, i_space + 7
-          elif v[i_cut] == ' ':
-            i_space = i_cut
-        n_cuts = v.count('\n')
-    else:
+    if v_length <= line_length:
       n_cuts = 0
+    elif middle:  # For verse PPT, for Gulim
+      n_cuts = int((v_length + 3) // line_length)
+      i_cut = v.rindex(' ')
+      i = n_all
+      for c in range(n_cuts):
+        avg_length = self.verse_length(v[:i], 1)[1] / (n_cuts + 1 - c)
+        while self.verse_length(v[v.rindex(' ', 0, i_cut) + 1:i],
+                                1)[1] < avg_length:
+          i_cut -= 1
+        i = i_cut + 1
+        v = v[:v.rindex(' ', 0, i)] + '\n' + v[v.rindex(' ', 0, i) + 1:]
+    else:  # For large PPT, for Malgun Gothic
+      i, i_cut, i_space = 0, 0, 0
+      while self.verse_length(v[i:])[1] > line_length:
+        i_cut += 1
+        if self.verse_length(v[i:i_cut])[1] > line_length:
+          v = v[:i_space] + '\n     ' + v[i_space + 1:]
+          i, i_cut = i_space, i_space + 7
+        elif v[i_cut] == ' ':
+          i_space = i_cut
+      n_cuts = v.count('\n')
 
     return v, int(n_cuts)
 
@@ -319,15 +316,15 @@ class PPT:
 
 
 def make_verse_ppt(ppt_inputs: list, v=False) -> str:
+  log.debug('make verse ppt')
   bb = pd.read_csv(DATA_PATH / 'bible_info.csv')
   bible = Bible(bb)
   sermon = Sermon(bb, ppt_inputs)
   sermon.passages_ext = bible.lookup(sermon.passages_ind)
-  sermon.quotes_ext = bible.lookup(sermon.quotes_ind)
 
   ppt = PPT()
   if v:
-    ppt.create_verse(sermon)
+    ppt.create_verse(sermon, bible.lookup(sermon.quotes_ind))
     file_name = DATA_PATH / (re.sub(r'\D+', '_', sermon.date_type) + '자막')
   else:
     ppt.create_large(sermon)

@@ -6,7 +6,8 @@ import logging.config
 from pathlib import Path
 
 
-def get_logger(name, level):  # WARNING 30, INFO 20, DEBUG 10
+def get_logger(name: str,
+               level: int) -> logging.Logger:  # WARNING 30, INFO 20, DEBUG 10
   fmt = '%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s'
   logging.basicConfig(level=level, format=fmt, datefmt='%Y-%m-%d %H:%M:%S')
   logging.config.dictConfig({
@@ -21,6 +22,8 @@ def get_logger(name, level):  # WARNING 30, INFO 20, DEBUG 10
 
   return logger
 
+
+logging.getLogger('PIL').setLevel(logging.WARNING)
 
 log = get_logger(__name__, 10)
 

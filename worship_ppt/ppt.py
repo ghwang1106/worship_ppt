@@ -5,7 +5,6 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from worship_ppt.common import log
 
 
 class PPT:
@@ -18,7 +17,7 @@ class PPT:
     self.prs.slide_width, self.prs.slide_height = Inches(
         self.layout[0]), Inches(self.layout[1])
 
-  def make_announcement(self, announcement):
+  def make_announcement(self, announcement: list) -> None:
     for s in announcement:
       if len(s) == 0:
         pass
@@ -100,19 +99,7 @@ class PPT:
         self.add_textbox(s, [1, 1, 9, 6.5], 44, spacing=1.1)
         self.add_slide()
 
-  def make_worship2(self, title):
-
-    title = title.split('\n')
-    if len(title) != 2:
-      log.warning('Unexpected number of lines in the title page')
-
-    self.add_slide()
-    self.add_textbox('\n'.join(title[0:-1]), [0, 1.5, 10, 1.5], 44)
-    self.add_paragraph(title[-1], 40)
-    self.add_slide()
-    self.add_textbox('축  도', [1, 1, 9, 6.5], 48)
-
-  def make_hymn(self, hymn, hymn_no):
+  def make_hymn(self, hymn, hymn_no) -> None:
     for i in enumerate(re.split(r'\D+', hymn_no.strip())):
       if 1 <= int(i[1]) <= 645:
         self.add_lyrics(hymn, number=i[1])
@@ -123,14 +110,12 @@ class PPT:
                  song_type='hymn',
                  title='',
                  number=0,
-                 verses='all'):
+                 verses='all') -> None:
     song_received = hymn.lookup(song_type=song_type,
                                 title=title,
                                 number=int(number))
     lyrics = song_received['lyrics']
-    if verses == 'all':
-      pass
-    else:
+    if verses != 'all':
       lyrics = [lyrics[v - 1] for v in verses]
 
     self.add_textbox(song_received['title'].split(' [')[0], [1, 0.4, 9, 1],
@@ -149,7 +134,7 @@ class PPT:
     for h in range(1, len(lyrics)):
       self.add_textbox(lyrics[h], [1, 1.8, 9, 3.76], 44)
 
-  def add_slide(self, n_slide=1):  # create new blank slide
+  def add_slide(self, n_slide: int = 1) -> None:  # create new blank slide
     for _ in range(n_slide):
       self.slide = self.prs.slides.add_slide(self.prs.slide_layouts[6])
       self.slide.background.fill.solid()
@@ -205,7 +190,7 @@ class PPT:
                                              v)), len(re.sub(r'[\w]+', '', v))
     return (n_all - n_spe - n_num) * l[0] + n_num * l[1] + n_spe * l[2]
 
-  def to_pptx(self, path):
+  def to_pptx(self, path: str) -> str:
     try:
       self.prs.save(path + '.pptx')  # save to pptx with specified path
     except PermissionError:

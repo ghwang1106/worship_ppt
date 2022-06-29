@@ -29,8 +29,7 @@ class Sermon:
     passages_raw = [x.strip() for x in passage.split(',')]
     self.passages_raw, self.passages_ind = self.passages_raw2ind(passages_raw)
 
-    if len(self.passages_raw
-          ) > 1:  # if there are multiple blocks of text within the main passage
+    if len(self.passages_raw) > 1:  # if 1+ blocks of text within main passage
       if len({a.split(' ')[0] for a in self.passages_raw}) == 1:
         if len({a.split(' ')[-1].split(':')[0] for a in self.passages_raw
                }) == 1:
@@ -43,8 +42,7 @@ class Sermon:
           ]
       self.passages_raw = [', '.join(self.passages_raw)]
 
-    if len(raw_inputs
-          ) == 5:  # if there are quotes to include other than the main passage
+    if len(raw_inputs) == 5:  # if quotes to include other than main passage
       quotes_raw = [x.strip() for x in raw_inputs[4].split(',')]
       self.quotes_raw, self.quotes_ind = self.passages_raw2ind(quotes_raw)
     else:
