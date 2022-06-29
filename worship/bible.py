@@ -14,8 +14,8 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
-from worship_ppt.common import DATA_PATH, log
-from worship_ppt.sermon import Sermon
+from worship.common import DATA_PATH, log
+from worship.sermon import Sermon
 
 
 class Bible:

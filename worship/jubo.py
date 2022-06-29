@@ -8,9 +8,9 @@ from docx.oxml.table import CT_Tbl
 from docx.table import Table
 from docx.text.paragraph import Paragraph
 from pathlib import Path
-from worship_ppt.common import DATA_PATH, log
-from worship_ppt.hymn import Hymn
-from worship_ppt.ppt import PPT
+from worship.common import DATA_PATH, log
+from worship.hymn import Hymn
+from worship.ppt import PPT
 
 
 class Jubo:

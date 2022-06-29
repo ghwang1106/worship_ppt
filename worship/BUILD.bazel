@@ -1,0 +1,24 @@
+load("@worship_ppt//:requirements.bzl", "requirement")
+
+py_library(
+  name="worship_ppt",
+  srcs=["bible.py",
+        "hymn.py",
+        "jubo.py",
+        "ppt.py",
+        "sermon.py"]
+)
+
+py_binary(
+  name="app",
+  srcs = ["app.py"],
+  deps = [
+    "//repo/worship_ppt/worship_ppt:worship_ppt"
+  ],
+  python_version = "PY3"
+)
+
+py_test(
+    name = "test",
+    srcs = ["worship_ppt/tests/test_app.py"],
+)

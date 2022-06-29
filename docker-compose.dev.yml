@@ -1,12 +1,29 @@
 version: "3.8"
 services:
-  main:
+  api:
     env_file: .env.dev
     image: gcr.io/seanhwangg/worship_ppt
     build:
-      context: .
+      context: ./worship
+      dockerfile: Dockerfile
       target: image-dev
     ports:
       - "127.0.0.1:8080:8080"
     volumes:
-      - ./worship_ppt:/worship_ppt
+      - ./worship:/worship
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - './client:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 3008:3000
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_SERVICE_URL=http://localhost:8080
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - api

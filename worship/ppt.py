@@ -5,6 +5,7 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from worship.hymn import Hymn
 
 
 class PPT:
@@ -106,7 +107,7 @@ class PPT:
         self.add_slide()
 
   def add_lyrics(self,
-                 hymn,
+                 hymn: Hymn,
                  song_type='hymn',
                  title='',
                  number=0,

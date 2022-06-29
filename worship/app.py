@@ -4,11 +4,11 @@ TODO
 
 __version__ = '0.0.1'
 
-from flask import Flask, request, render_template, send_file, flash
-from worship_ppt.bible import make_verse_ppt
-from worship_ppt.jubo import make_main_ppt
-from worship_ppt.hymn import make_hymn_ppt
-from worship_ppt.common import DATA_PATH, log
+from flask import Flask, request, render_template, send_file, flash, redirect
+from worship.bible import make_verse_ppt
+from worship.jubo import make_main_ppt
+from worship.hymn import make_hymn_ppt
+from worship.common import DATA_PATH, log
 
 
 def create_app():
@@ -20,7 +20,7 @@ def create_app():
   def index():  # pylint: disable=W0612
     return render_template('index.html', version_str=__version__)
 
-  @app.route('/download_obs', methods=['GET', 'POST'])
+  @app.route('/download_obs', methods=['GET'])
   def download_obs():  # pylint: disable=W0612
     log.info('Download obs')
     if request.method != 'POST':
@@ -38,11 +38,11 @@ def create_app():
     except (TypeError, IndexError, AssertionError) as _:
       return ('', 204)
 
-  @app.route('/download_jubo', methods=['GET', 'POST'])
+  @app.route('/download_jubo', methods=['GET'])
   def download_jubo():  # pylint: disable=W0612
     log.info('Download jubo')
     if request.method != 'POST' or not request.files:
-      return render_template('index.html')
+      return redirect('index.html')
 
     doc_file = request.files['filename']
     if '.' not in doc_file.filename:
@@ -51,16 +51,22 @@ def create_app():
     elif doc_file.filename.rsplit('.', 1)[1].upper() in ['DOCX', 'DOC']:
       doc_file.save(DATA_PATH / doc_file.filename)
       path = make_main_ppt(DATA_PATH / doc_file.filename)
-      return send_file(path + '.pptx', as_attachment=True)
+      send_file(path + '.pptx', as_attachment=True)
+      return redirect('index.html')
     else:
       flash('워드 파일이 필요합니다.', 'warning')
-      return render_template('index.html')
+      return redirect('index.html')
 
-  @app.route('/download_hymn', methods=['GET', 'POST'])
+  @app.route('/hymn', methods=['GET'])
+  def handle_hymn():  # pylint: disable=W0612
+    log.info('Handle hymn')
+    # request.form
+
+  @app.route('/download_hymn', methods=['GET'])
   def download_hymn():  # pylint: disable=W0612
     log.info('Download hymn')
     if request.method != 'POST':
-      return render_template('index.html')
+      return redirect('/')
 
     hymn_no = request.form['hymn_no'].strip(' ,')
     if not hymn_no:
@@ -69,8 +75,9 @@ def create_app():
     elif hymn_no.replace(',', '').replace(' ', '').isnumeric():
       path = make_hymn_ppt(hymn_no)
       return send_file(path + '.pptx', as_attachment=True)
+      # return redirect('/')
     else:
       flash('입력하신 정보를 처리할 수 없습니다.', 'warning')
-      return render_template('index.html')
+      return redirect('/')
 
   return app

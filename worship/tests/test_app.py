@@ -4,8 +4,8 @@ API test for worship_ppt
 """
 
 import pytest
-from worship_ppt.app import create_app
-from worship_ppt.common import log, DATA_PATH
+from worship.app import create_app
+from worship.common import log, DATA_PATH
 
 
 @pytest.fixture()

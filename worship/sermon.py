@@ -2,7 +2,7 @@
 """
 
 import pandas as pd
-from worship_ppt.common import log
+from worship.common import log
 
 
 class Sermon:
